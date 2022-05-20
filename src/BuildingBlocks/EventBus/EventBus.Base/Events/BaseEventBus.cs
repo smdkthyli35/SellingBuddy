@@ -33,7 +33,7 @@ namespace EventBus.Base.Events
 
             return eventName;
         }
-
+        
         public virtual string GetSubName(string eventName)
         {
             return $"{EventBusConfig.SubscriberClientAppName}.{ProcessEventName(eventName)}";
