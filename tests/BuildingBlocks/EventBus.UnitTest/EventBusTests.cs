@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RabbitMQ.Client;
+using System.Threading.Tasks;
 
 namespace EventBus.UnitTest
 {
@@ -34,7 +35,7 @@ namespace EventBus.UnitTest
             var eventBus = sp.GetRequiredService<IEventBus>();
 
             eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
-            eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
+            //eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
         }
 
         [TestMethod]
@@ -50,7 +51,9 @@ namespace EventBus.UnitTest
             var eventBus = sp.GetRequiredService<IEventBus>();
 
             eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
-            eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
+            //eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
+
+            Task.Delay(2000).Wait();
         }
 
         [TestMethod]
