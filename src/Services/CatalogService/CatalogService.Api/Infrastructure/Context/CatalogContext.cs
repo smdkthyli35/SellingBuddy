@@ -1,4 +1,5 @@
 ﻿using CatalogService.Api.Core.Domain;
+using CatalogService.Api.Infrastructure.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,11 @@ namespace CatalogService.Api.Infrastructure.Context
         public DbSet<CatalogBrand> CatalogBrands { get; set; }
         public DbSet<CatalogType> CatalogTypes { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
+            builder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
+            builder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
         }
     }
 }

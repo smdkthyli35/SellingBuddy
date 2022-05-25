@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Infrastructure\EntityConfigurations\" />
     <Folder Include="Infrastructure\Setup\" />
   </ItemGroup>
 
