@@ -52,5 +52,31 @@ namespace EventBus.UnitTest
             eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
             eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
         }
+
+        [TestMethod]
+        public void subscribe_event_on_azure_test()
+        {
+            services.AddSingleton<IEventBus>(sp =>
+            {
+                EventBusConfig config = new()
+                {
+                    ConnectionRetryCount = 5,
+                    SubscriberClientAppName = "EventBus.UnitTest",
+                    DefaultTopicName = "SellingBuddyTopicName",
+                    EventBusType = EventBusType.AzureServiceBus,
+                    EventNameSuffix = "IntegrationEvent",
+                    EventBusConnectionString = "Endpoint=sb://techbuddy.servicebus.windows.net/;SharedAccessKeyName=NewPolicyForYTVideos;SharedAccessKey=<KeyValue>;EntityPath=<EventHubName>"
+                };
+
+                return EventBusFactory.Create(config, sp);
+            });
+
+            var sp = services.BuildServiceProvider();
+
+            var eventBus = sp.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
+            eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
+        }
     }
 }
