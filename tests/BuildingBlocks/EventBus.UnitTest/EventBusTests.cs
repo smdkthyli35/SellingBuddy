@@ -26,23 +26,7 @@ namespace EventBus.UnitTest
         {
             services.AddSingleton<IEventBus>(sp =>
             {
-                EventBusConfig config = new()
-                {
-                    ConnectionRetryCount = 5,
-                    SubscriberClientAppName = "EventBus.UnitTest",
-                    DefaultTopicName = "SellingBuddyTopicName",
-                    EventBusType = EventBusType.RabbitMQ,
-                    EventNameSuffix = "IntegrationEvent",
-                    //Connection = new ConnectionFactory()
-                    //{
-                    //    HostName = "localhost",
-                    //    Port = 5672,
-                    //    UserName = "guest",
-                    //    Password = "guest"
-                    //}
-                };
-
-                return EventBusFactory.Create(config, sp);
+                return EventBusFactory.Create(GetRabbitMQConfig(), sp);
             });
 
             var sp = services.BuildServiceProvider();
@@ -58,17 +42,7 @@ namespace EventBus.UnitTest
         {
             services.AddSingleton<IEventBus>(sp =>
             {
-                EventBusConfig config = new()
-                {
-                    ConnectionRetryCount = 5,
-                    SubscriberClientAppName = "EventBus.UnitTest",
-                    DefaultTopicName = "SellingBuddyTopicName",
-                    EventBusType = EventBusType.AzureServiceBus,
-                    EventNameSuffix = "IntegrationEvent",
-                    EventBusConnectionString = "Endpoint=sb://techbuddy.servicebus.windows.net/;SharedAccessKeyName=NewPolicyForYTVideos;SharedAccessKey=<KeyValue>;EntityPath=<EventHubName>"
-                };
-
-                return EventBusFactory.Create(config, sp);
+                return EventBusFactory.Create(GetAzureConfig(), sp);
             });
 
             var sp = services.BuildServiceProvider();
@@ -77,6 +51,68 @@ namespace EventBus.UnitTest
 
             eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
             eventBus.UnSubscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
+        }
+
+        [TestMethod]
+        public void send_message_to_rabbitmq_test()
+        {
+            services.AddSingleton<IEventBus>(sp =>
+            {
+                return EventBusFactory.Create(GetRabbitMQConfig(), sp);
+            });
+
+            var sp = services.BuildServiceProvider();
+
+            var eventBus = sp.GetRequiredService<IEventBus>();
+
+            eventBus.Publish(new OrderCreatedIntegrationEvent(1));
+        }
+
+        [TestMethod]
+        public void send_message_to_azure_test()
+        {
+            services.AddSingleton<IEventBus>(sp =>
+            {
+                return EventBusFactory.Create(GetAzureConfig(), sp);
+            });
+
+            var sp = services.BuildServiceProvider();
+
+            var eventBus = sp.GetRequiredService<IEventBus>();
+
+            eventBus.Publish(new OrderCreatedIntegrationEvent(1));
+        }
+
+        private EventBusConfig GetAzureConfig()
+        {
+            return new EventBusConfig()
+            {
+                ConnectionRetryCount = 5,
+                SubscriberClientAppName = "EventBus.UnitTest",
+                DefaultTopicName = "SellingBuddyTopicName",
+                EventBusType = EventBusType.AzureServiceBus,
+                EventNameSuffix = "IntegrationEvent",
+                EventBusConnectionString = "Endpoint=sb://techbuddy.servicebus.windows.net/;SharedAccessKeyName=NewPolicyForYTVideos;SharedAccessKey=<KeyValue>;EntityPath=<EventHubName>"
+            };
+        }
+
+        private EventBusConfig GetRabbitMQConfig()
+        {
+            return new EventBusConfig()
+            {
+                ConnectionRetryCount = 5,
+                SubscriberClientAppName = "EventBus.UnitTest",
+                DefaultTopicName = "SellingBuddyTopicName",
+                EventBusType = EventBusType.RabbitMQ,
+                EventNameSuffix = "IntegrationEvent"
+                //Connection = new ConnectionFactory()
+                //{
+                //    HostName = "localhost",
+                //    Port = 5672,
+                //    UserName = "guest",
+                //    Password = "guest"
+                //}
+            };
         }
     }
 }
