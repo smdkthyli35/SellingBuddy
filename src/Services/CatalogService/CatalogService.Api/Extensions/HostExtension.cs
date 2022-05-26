@@ -38,7 +38,7 @@ namespace CatalogService.Api.Extensions
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError("An error occured while migrating the database used on context {DbContextName}", typeof(TContext).Name);
+                    logger.LogError(ex, "An error occured while migrating the database used on context {DbContextName}", typeof(TContext).Name);
                 }
             }
 
