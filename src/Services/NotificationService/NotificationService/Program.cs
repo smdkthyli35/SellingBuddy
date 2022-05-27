@@ -3,6 +3,8 @@ using EventBus.Base.Abstraction;
 using EventBus.Factory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NotificationService.Api.IntegrationEvents.Events;
+using NotificationService.IntegrationEvents.EventHandlers;
 using System;
 
 namespace NotificationService
@@ -15,8 +17,15 @@ namespace NotificationService
 
             ConfigureServices(services);
 
+            var sp = services.BuildServiceProvider();
 
-            Console.WriteLine("Hello World!");
+            IEventBus eventBus = sp.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<OrderPaymentSuccessIntegrationEvent, OrderPaymentSuccessIntegrationEventHandler>();
+            eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, OrderPaymentFailedIntegrationEventHandler>();
+
+            Console.WriteLine("Application is running...");
+            Console.ReadLine();
         }
 
         private static void ConfigureServices(ServiceCollection services)
@@ -25,6 +34,9 @@ namespace NotificationService
             {
                 configure.AddConsole();
             });
+
+            services.AddTransient<OrderPaymentFailedIntegrationEventHandler>();
+            services.AddTransient<OrderPaymentSuccessIntegrationEventHandler>();
 
             services.AddSingleton<IEventBus>(sp =>
             {
