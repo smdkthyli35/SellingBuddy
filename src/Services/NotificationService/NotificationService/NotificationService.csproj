@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus.Factory\EventBus.Factory.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IntegrationEvents\EventHandlers\" />
+  </ItemGroup>
+
 </Project>
