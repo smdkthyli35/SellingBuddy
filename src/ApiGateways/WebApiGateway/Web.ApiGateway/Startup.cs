@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Web.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddOcelot();
+            services.AddOcelot().AddConsul();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
