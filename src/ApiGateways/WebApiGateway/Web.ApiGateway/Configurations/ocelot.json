@@ -31,6 +31,22 @@
             "UpstreamPathTemplate": "/auth",
             "UpstreamHttpMethod": [ "Post" ],
             "UpstreamScheme": "http"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "ServiceName": "BasketService",
+            "DownstreamPathTemplate": "/api/Basket/{everything}",
+            "DownstreamScheme": "http",
+            //"DownstreamHostAndPorts": [
+            //    {
+            //        "Host": "localhost",
+            //        "Port": 5005
+            //    }
+            //],
+
+            "UpstreamPathTemplate": "/basket/{everything}",
+            "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+            "UpstreamScheme": "http"
         }
     ],
 
