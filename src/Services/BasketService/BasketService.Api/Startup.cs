@@ -1,4 +1,7 @@
+using BasketService.Api.Core.Application.Repository;
+using BasketService.Api.Core.Application.Services;
 using BasketService.Api.Extensions;
+using BasketService.Api.Infrastructure.Repository;
 using EventBus.Base;
 using EventBus.Base.Abstraction;
 using EventBus.Factory;
@@ -67,6 +70,11 @@ namespace BasketService.Api
             services.ConfigureAuth(Configuration);
             services.AddSingleton(sp => sp.ConfigureRedis(Configuration));
             services.ConfigureConsul(Configuration);
+
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<IBasketRepository, RedisBasketRepository>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddSingleton<IEventBus>(sp =>
             {
