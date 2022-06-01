@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Core\Application\" />
+    <Folder Include="Core\Application\Repository\" />
   </ItemGroup>
 
   <ItemGroup>
