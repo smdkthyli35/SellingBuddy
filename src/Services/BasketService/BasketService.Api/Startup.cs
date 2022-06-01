@@ -2,6 +2,8 @@ using BasketService.Api.Core.Application.Repository;
 using BasketService.Api.Core.Application.Services;
 using BasketService.Api.Extensions;
 using BasketService.Api.Infrastructure.Repository;
+using BasketService.Api.IntegrationEvents.EventHandlers;
+using BasketService.Api.IntegrationEvents.Events;
 using EventBus.Base;
 using EventBus.Base.Abstraction;
 using EventBus.Factory;
@@ -65,6 +67,8 @@ namespace BasketService.Api
             });
 
             app.RegisterWithConsul(lifetime);
+
+            ConfigureSubscription(app.ApplicationServices);
         }
 
         private void ConfigureServicesExt(IServiceCollection services)
@@ -90,6 +94,15 @@ namespace BasketService.Api
 
                 return EventBusFactory.Create(config, sp);
             });
+
+            services.AddTransient<OrderCreatedIntegrationEventHandler>();
+        }
+
+        private void ConfigureSubscription(IServiceProvider serviceProvider)
+        {
+            var eventBus = serviceProvider.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();
         }
     }
 }
