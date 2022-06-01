@@ -1,3 +1,7 @@
+using BasketService.Api.Extensions;
+using EventBus.Base;
+using EventBus.Base.Abstraction;
+using EventBus.Factory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,7 +39,7 @@ namespace BasketService.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -53,6 +57,28 @@ namespace BasketService.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.RegisterWithConsul(lifetime);
+        }
+
+        private void ConfigureServicesExt(IServiceCollection services)
+        {
+            services.ConfigureAuth(Configuration);
+            services.AddSingleton(sp => sp.ConfigureRedis(Configuration));
+            services.ConfigureConsul(Configuration);
+
+            services.AddSingleton<IEventBus>(sp =>
+            {
+                EventBusConfig config = new()
+                {
+                    ConnectionRetryCount = 5,
+                    EventNameSuffix = "IntegrationEvent",
+                    SubscriberClientAppName = "BasketService",
+                    EventBusType = EventBusType.RabbitMQ
+                };
+
+                return EventBusFactory.Create(config, sp);
             });
         }
     }
