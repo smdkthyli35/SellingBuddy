@@ -26,7 +26,7 @@ namespace BasketService.Api.IntegrationEvents.Events
         public Guid RequestId { get; set; }
         public CustomerBasket Basket { get; set; }
 
-        public OrderCreatedIntegrationEvent(string userId, string userName, string city, string street, string state, string country, string zipCode, string cardNumber, string cardHolderName, DateTime cardExpiration, string cardSecurityNumber, int cardTypeId, string buyer, Guid requestId, CustomerBasket basket)
+        public OrderCreatedIntegrationEvent(string userId, string userName, string city, string street, string state, string country, string zipCode, string cardNumber, string cardHolderName, DateTime cardExpiration, string cardSecurityNumber, int cardTypeId, string buyer, CustomerBasket basket)
         {
             UserId = userId;
             UserName = userName;
@@ -41,7 +41,6 @@ namespace BasketService.Api.IntegrationEvents.Events
             CardSecurityNumber = cardSecurityNumber;
             CardTypeId = cardTypeId;
             Buyer = buyer;
-            RequestId = requestId;
             Basket = basket;
         }
     }
