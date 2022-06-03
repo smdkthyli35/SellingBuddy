@@ -20,3 +20,4 @@ namespace OrderService.Domain.Events
             OrderId = orderId;
         }
     }
+}
