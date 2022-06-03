@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OrderService.Domain.AggregateModels.BuyerAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace OrderService.Domain.Events
     {
         public Buyer Buyer { get; private set; }
         public PaymentMethod Payment { get; private set; }
-        public int OrderId { get; private set; }
+        public Guid OrderId { get; private set; }
 
-        public BuyerAndPaymentMethodVerifiedDomainEvent(Buyer buyer, PaymentMethod payment, int orderId)
+        public BuyerAndPaymentMethodVerifiedDomainEvent(Buyer buyer, PaymentMethod payment, Guid orderId)
         {
             Buyer = buyer;
             Payment = payment;
