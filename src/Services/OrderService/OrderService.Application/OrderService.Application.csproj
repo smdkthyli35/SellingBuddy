@@ -15,8 +15,8 @@
   <ItemGroup>
     <Folder Include="DomainEventHandlers\" />
     <Folder Include="Dtos\" />
+    <Folder Include="Features\Commands\" />
     <Folder Include="Mapping\" />
-    <Folder Include="Features\" />
   </ItemGroup>
 
   <ItemGroup>
