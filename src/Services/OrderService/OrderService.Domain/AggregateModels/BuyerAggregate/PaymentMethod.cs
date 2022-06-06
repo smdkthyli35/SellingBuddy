@@ -16,7 +16,7 @@ namespace OrderService.Domain.AggregateModels.BuyerAggregate
         public string CardHolderName;
         public DateTime Expiration;
 
-        private int CardTypeId;
+        public int CardTypeId;
 
         public CardType CardType { get; private set; }
 
