@@ -23,10 +23,11 @@ namespace OrderService.Api.IntegrationEvents.Events
         public string CardSecurityNumber { get; set; }
         public int CardTypeId { get; set; }
         public string Buyer { get; set; }
+        public string CorrelationId { get; set; }
         public Guid RequestId { get; set; }
         public CustomerBasket Basket { get; set; }
 
-        public OrderCreatedIntegrationEvent(string userId, string userName, string city, string street, string state, string country, string zipCode, string cardNumber, string cardHolderName, DateTime cardExpiration, string cardSecurityNumber, int cardTypeId, string buyer, Guid requestId, CustomerBasket basket)
+        public OrderCreatedIntegrationEvent(string userId, string userName, string city, string street, string state, string country, string zipCode, string cardNumber, string cardHolderName, DateTime cardExpiration, string cardSecurityNumber, int cardTypeId, string buyer, Guid requestId, string correlationId, CustomerBasket basket)
         {
             UserId = userId;
             UserName = userName;
@@ -43,6 +44,7 @@ namespace OrderService.Api.IntegrationEvents.Events
             Buyer = buyer;
             RequestId = requestId;
             Basket = basket;
+            CorrelationId = correlationId;
         }
     }
 }

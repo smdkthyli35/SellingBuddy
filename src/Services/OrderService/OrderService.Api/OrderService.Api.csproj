@@ -11,11 +11,11 @@
   <ItemGroup>
     <Folder Include="Extensions\EventHandlerRegistration\" />
     <Folder Include="Extensions\ServiceDiscovery\" />
-    <Folder Include="IntegrationEvents\EventHandlers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus.Base\EventBus.Base.csproj" />
+    <ProjectReference Include="..\OrderService.Application\OrderService.Application.csproj" />
     <ProjectReference Include="..\OrderService.Domain\OrderService.Domain.csproj" />
   </ItemGroup>
 
